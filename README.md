@@ -18,14 +18,29 @@ Codex（CLI/Agent）での開発を前提にした、**最小で実用的なリ�
 - `.editorconfig`: エディタ共通設定
 - `.gitignore`: 汎用除外設定
 
+## docs 運用ルール
+
+- ドキュメントは `docs/` 配下で管理し、設計・運用・意思決定を同一リポジトリで追跡する
+- 主要構成:
+  - `docs/requirements`: 要件と受け入れ条件
+  - `docs/design`: 設計情報
+  - `docs/operations`: 運用手順
+  - `docs/adr`: 重要な設計/運用判断（1 ADR = 1 決定）
+- 命名規則:
+  - 要件/設計/運用: `YYYYMMDD-<slug>.md`
+  - ADR: `NNNN-<slug>.md`
+- 主要文書ヘッダ必須項目: `Title` `Status` `Created` `Last Updated` `Owner` `Language`
+- 日英併記方針: 見出しは `日本語 / English` 形式を基本にし、最低限「概要」と「結論」は JA/EN の両方を記載
+- 仕様や挙動に影響する変更では、関連 docs 更新と必要に応じた ADR 追加を PR で必須とする
+
 ## 使い方
 
 1. このテンプレートをベースに新規リポジトリを作成
 2. `README.md` の「プロジェクト固有情報」を追記
 3. `AGENTS.md` をプロジェクトに合わせて更新
-4. 必要に応じて `scripts/check.sh` にテスト/リンターを追加
-5. Issue は `.github/ISSUE_TEMPLATE/` のテンプレートから日本語で起票
-
+4. `docs/templates/` を使って必要な文書を作成
+5. 必要に応じて `scripts/check.sh` にテスト/リンターを追加
+6. Issue は `.github/ISSUE_TEMPLATE/` のテンプレートから日本語で起票
 
 ## 日本語運用ガイド
 
