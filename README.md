@@ -48,6 +48,14 @@ Codex（CLI/Agent）での開発を前提にした、**最小で実用的なリ�
 - Issue は「不具合報告 / 機能要望」テンプレートを選んで日本語で記述
 - 空 Issue は無効化（`blank_issues_enabled: false`）して、テンプレート利用を促進
 
+## PRブランチ運用ルール
+
+- ブランチ名は `type/short-slug` 形式を使用する
+- `type` は `feature|fix|chore|docs|refactor|test|ci` のいずれかを使用する
+- `short-slug` は英小文字・数字・ハイフンのみ（先頭末尾ハイフン禁止）
+- ブランチ名は `Branch Name Check` workflow で PR 時に検証する
+- マージ後のブランチ自動削除は GitHub のリポジトリ設定（`Automatically delete head branches`）で有効化する
+
 ## ローカルチェック
 
 ```bash

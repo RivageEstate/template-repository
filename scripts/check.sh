@@ -9,6 +9,7 @@ test -f AGENTS.md
 
 echo "[check] workflow exists"
 test -f .github/workflows/ci.yml
+test -f .github/workflows/branch-name-check.yml
 
 echo "[check] japanese PR template exists"
 test -f .github/pull_request_template.md
@@ -19,7 +20,7 @@ test -f .github/ISSUE_TEMPLATE/feature_request.md
 test -f .github/ISSUE_TEMPLATE/config.yml
 
 echo "[check] issue templates configured (blank issue disabled)"
-grep -Eq '^blank_issues_enabled:[[:space:]]*false$' .github/ISSUE_TEMPLATE/config.yml
+tr -d '\r' < .github/ISSUE_TEMPLATE/config.yml | grep -Eq '^blank_issues_enabled:[[:space:]]*false$'
 
 echo "[check] docs directories exist"
 test -d docs
@@ -46,5 +47,9 @@ echo "[check] PR template includes docs review checklist"
 grep -Fq '仕様/挙動変更がある場合、関連docsを更新した' .github/pull_request_template.md
 grep -Fq 'ADRが必要な変更ではADRを追加した' .github/pull_request_template.md
 grep -Fq '更新対象docsのパス' .github/pull_request_template.md
+grep -Fq 'ブランチ名が `type/short-slug` ルールに準拠している' .github/pull_request_template.md
+
+echo "[check] branch name validator exists"
+test -f scripts/validate-branch-name.sh
 
 echo "All lightweight checks passed."
