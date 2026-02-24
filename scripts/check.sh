@@ -39,6 +39,10 @@ test -f AGENTS.md
 echo "[check] workflow exists"
 test -f .github/workflows/ci.yml
 test -f .github/workflows/branch-name-check.yml
+test -f .github/workflows/release.yml
+
+echo "[check] release config exists"
+test -f .github/release.yml
 
 echo "[check] japanese PR template exists"
 test -f .github/pull_request_template.md
@@ -71,6 +75,7 @@ test -f docs/templates/requirements-template.md
 test -f docs/templates/design-template.md
 test -f docs/templates/operations-template.md
 test -f docs/templates/adr-template.md
+test -f docs/templates/release-notes-template.md
 
 echo "[check] docs filenames follow naming rules"
 while IFS= read -r filepath; do

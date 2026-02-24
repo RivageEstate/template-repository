@@ -14,6 +14,8 @@ Codex（CLI/Agent）での開発を前提にした、**最小で実用的なリ�
 - `.github/pull_request_template.md`: 日本語 PR 記述テンプレート
 - `.github/ISSUE_TEMPLATE/*`: 日本語 Issue テンプレート（不具合/機能要望）
 - `.github/workflows/ci.yml`: 最低限の整合性チェック CI
+- `.github/workflows/release.yml`: タグ作成時の GitHub Release 作成
+- `.github/release.yml`: GitHub Release ノートのカテゴリ定義
 - `scripts/check.sh`: ローカルで実行する軽量チェック
 - `.editorconfig`: エディタ共通設定
 - `.gitignore`: 汎用除外設定
@@ -55,6 +57,14 @@ Codex（CLI/Agent）での開発を前提にした、**最小で実用的なリ�
 - `short-slug` は英小文字・数字・ハイフンのみ（先頭末尾ハイフン禁止）
 - ブランチ名は `Branch Name Check` workflow で PR 時に検証する
 - マージ後のブランチ自動削除は GitHub のリポジトリ設定（`Automatically delete head branches`）で有効化する
+- `main` にはブランチ保護を設定し、`CI` と `Branch Name Check` を必須チェックにする（詳細は `docs/operations/20260224-branch-protection-policy.md`）
+
+## リリース運用
+
+- 運用手順: `docs/operations/20260224-release-management-runbook.md`
+- リリースノートひな形: `docs/templates/release-notes-template.md`
+- 変更履歴: `CHANGELOG.md`
+- タグ `v*` を push すると `Release` workflow が GitHub Release を作成する
 
 ## ローカルチェック
 

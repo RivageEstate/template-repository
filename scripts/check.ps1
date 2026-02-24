@@ -67,6 +67,10 @@ Assert-PathExists -Path "AGENTS.md" -PathType "Leaf"
 Write-Host "[check] workflow exists"
 Assert-PathExists -Path ".github/workflows/ci.yml" -PathType "Leaf"
 Assert-PathExists -Path ".github/workflows/branch-name-check.yml" -PathType "Leaf"
+Assert-PathExists -Path ".github/workflows/release.yml" -PathType "Leaf"
+
+Write-Host "[check] release config exists"
+Assert-PathExists -Path ".github/release.yml" -PathType "Leaf"
 
 Write-Host "[check] japanese PR template exists"
 Assert-PathExists -Path ".github/pull_request_template.md" -PathType "Leaf"
@@ -102,6 +106,7 @@ Assert-PathExists -Path "docs/templates/requirements-template.md" -PathType "Lea
 Assert-PathExists -Path "docs/templates/design-template.md" -PathType "Leaf"
 Assert-PathExists -Path "docs/templates/operations-template.md" -PathType "Leaf"
 Assert-PathExists -Path "docs/templates/adr-template.md" -PathType "Leaf"
+Assert-PathExists -Path "docs/templates/release-notes-template.md" -PathType "Leaf"
 
 Write-Host "[check] docs filenames follow naming rules"
 $datedDirs = @("docs/requirements", "docs/design", "docs/operations")
