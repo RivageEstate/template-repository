@@ -1,6 +1,21 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+function Assert-Match {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Value,
+        [Parameter(Mandatory = $true)]
+        [string]$Pattern,
+        [Parameter(Mandatory = $true)]
+        [string]$Message
+    )
+
+    if ($Value -notmatch $Pattern) {
+        throw $Message
+    }
+}
+
 function Assert-PathExists {
     param(
         [Parameter(Mandatory = $true)]
@@ -12,6 +27,34 @@ function Assert-PathExists {
 
     if (-not (Test-Path $Path -PathType $PathType)) {
         throw "Missing required path: $Path ($PathType)"
+    }
+}
+
+function Assert-DocHeaders {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    $content = Get-Content $Path -Raw
+    Assert-Match -Value $content -Pattern "(?m)^- Title:\s*.*$" -Message "Missing header in ${Path}: Title"
+    Assert-Match -Value $content -Pattern "(?m)^- Status:\s*" -Message "Missing header in ${Path}: Status"
+    Assert-Match -Value $content -Pattern "(?m)^- Created:\s*" -Message "Missing header in ${Path}: Created"
+    Assert-Match -Value $content -Pattern "(?m)^- Last Updated:\s*" -Message "Missing header in ${Path}: Last Updated"
+    Assert-Match -Value $content -Pattern "(?m)^- Owner:\s*" -Message "Missing header in ${Path}: Owner"
+    Assert-Match -Value $content -Pattern "(?m)^- Language:\s*JA/EN\s*$" -Message "Missing header in ${Path}: Language: JA/EN"
+
+    if (-not $content.Contains("## 概要 / Summary (JA)")) {
+        throw "Missing section in ${Path}: 概要 / Summary (JA)"
+    }
+    if (-not $content.Contains("## Summary (EN)")) {
+        throw "Missing section in ${Path}: Summary (EN)"
+    }
+    if (-not $content.Contains("## 結論 / Conclusion (JA)")) {
+        throw "Missing section in ${Path}: 結論 / Conclusion (JA)"
+    }
+    if (-not $content.Contains("## Conclusion (EN)")) {
+        throw "Missing section in ${Path}: Conclusion (EN)"
     }
 }
 
@@ -59,6 +102,30 @@ Assert-PathExists -Path "docs/templates/requirements-template.md" -PathType "Lea
 Assert-PathExists -Path "docs/templates/design-template.md" -PathType "Leaf"
 Assert-PathExists -Path "docs/templates/operations-template.md" -PathType "Leaf"
 Assert-PathExists -Path "docs/templates/adr-template.md" -PathType "Leaf"
+
+Write-Host "[check] docs filenames follow naming rules"
+$datedDirs = @("docs/requirements", "docs/design", "docs/operations")
+foreach ($dir in $datedDirs) {
+    $files = Get-ChildItem -Path $dir -Filter "*.md" -File | Where-Object { $_.Name -ne "README.md" }
+    foreach ($file in $files) {
+        Assert-Match -Value $file.Name -Pattern "^[0-9]{8}-[a-z0-9]+(-[a-z0-9]+)*\.md$" -Message "Invalid docs filename: $($file.FullName)"
+    }
+}
+$adrFiles = Get-ChildItem -Path "docs/adr" -Filter "*.md" -File | Where-Object { $_.Name -ne "README.md" }
+foreach ($file in $adrFiles) {
+    Assert-Match -Value $file.Name -Pattern "^[0-9]{4}-[a-z0-9]+(-[a-z0-9]+)*\.md$" -Message "Invalid docs filename: $($file.FullName)"
+}
+
+Write-Host "[check] docs required headers and bilingual summary/conclusion"
+$headerTargets = @()
+$headerTargets += Get-ChildItem -Path "docs/templates" -Filter "*.md" -File
+$headerTargets += Get-ChildItem -Path "docs/requirements" -Filter "*.md" -File | Where-Object { $_.Name -ne "README.md" }
+$headerTargets += Get-ChildItem -Path "docs/design" -Filter "*.md" -File | Where-Object { $_.Name -ne "README.md" }
+$headerTargets += Get-ChildItem -Path "docs/operations" -Filter "*.md" -File | Where-Object { $_.Name -ne "README.md" }
+$headerTargets += Get-ChildItem -Path "docs/adr" -Filter "*.md" -File | Where-Object { $_.Name -ne "README.md" }
+foreach ($file in $headerTargets | Sort-Object FullName) {
+    Assert-DocHeaders -Path $file.FullName
+}
 
 Write-Host "[check] PR template includes docs review checklist"
 $prTemplate = Get-Content .github/pull_request_template.md -Raw
