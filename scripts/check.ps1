@@ -71,7 +71,7 @@ if ($prTemplate -notmatch "ADRが必要な変更ではADRを追加した") {
 if ($prTemplate -notmatch "更新対象docsのパス") {
     throw "Expected checklist entry was not found: docs path"
 }
-if ($prTemplate -notmatch "ブランチ名が `type/short-slug` ルールに準拠している") {
+if (-not $prTemplate.Contains('ブランチ名が `type/short-slug` ルールに準拠している')) {
     throw "Expected checklist entry was not found: branch rule"
 }
 
