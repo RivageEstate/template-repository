@@ -11,6 +11,11 @@ This directory stores project documentation alongside code.
 - `adr/`: 重要判断記録 / Architectural Decision Records
 - `templates/`: 文書テンプレート / Document templates
 
+## インデックス / Index
+
+- 初回要件: `docs/requirements/20260224-initial-quality-baseline.md`
+- ADR-0001: `docs/adr/0001-language-agnostic-quality-foundation.md`
+
 ## 命名規則 / Naming
 
 - 要件・設計・運用: `YYYYMMDD-<slug>.md`

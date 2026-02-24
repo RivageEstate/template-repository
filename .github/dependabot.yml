@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+    open-pull-requests-limit: 5
+
+# 将来の言語追加時は、同じファイルに対象エコシステムを追記する。
+# 例: npm, pip, gomod, cargo, docker

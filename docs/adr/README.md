@@ -10,3 +10,7 @@ Record important design and operational decisions as ADRs.
 
 - 複数案のトレードオフを比較して方針を決めたとき
 - 後続実装に長期的な影響がある判断をしたとき
+
+## ADR 一覧 / ADR Index
+
+- `0001-language-agnostic-quality-foundation.md`: 言語導入より先に品質基盤を整備する
