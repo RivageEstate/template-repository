@@ -47,6 +47,7 @@ echo "[check] PR template includes docs review checklist"
 grep -Fq '仕様/挙動変更がある場合、関連docsを更新した' .github/pull_request_template.md
 grep -Fq 'ADRが必要な変更ではADRを追加した' .github/pull_request_template.md
 grep -Fq '更新対象docsのパス' .github/pull_request_template.md
+# shellcheck disable=SC2016
 grep -Fq 'ブランチ名が `type/short-slug` ルールに準拠している' .github/pull_request_template.md
 
 echo "[check] branch name validator exists"
