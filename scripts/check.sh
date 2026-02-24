@@ -52,4 +52,10 @@ grep -Fq 'ブランチ名が `type/short-slug` ルールに準拠している' .
 echo "[check] branch name validator exists"
 test -f scripts/validate-branch-name.sh
 
+echo "[check] shell scripts use LF line endings"
+if grep -n $'\r' scripts/*.sh; then
+  echo "Detected CRLF in shell scripts. Please convert to LF." >&2
+  exit 1
+fi
+
 echo "All lightweight checks passed."
